@@ -1,4 +1,6 @@
 const User = require("./../models/User.model");
+const { generateToken }= require("./../utils/jwt.utils");
+const hashPassword = require("./../utils/hash.utils");
 
 const register = async (req,res) => {
     try{
@@ -10,7 +12,7 @@ const register = async (req,res) => {
             })
         }
         
-        const userExist = await Users.findOne({email});
+        const userExist = await User.findOne({email});
         
         if(userExist){
             return res.status(400).json({
@@ -18,7 +20,7 @@ const register = async (req,res) => {
             })
         }
 
-        const hashedPassword = await hashedPassword(password);
+        const hashedPassword = await hashPassword(password);
 
         const newUser = new User({
             name,
@@ -28,7 +30,7 @@ const register = async (req,res) => {
 
         await newUser.save();
 
-        const token = await generateToken({id : newUser._id});
+        const token = generateToken({id : newUser._id});
 
         res.status(200).json({
             msg:"User registered successfully",
@@ -40,8 +42,11 @@ const register = async (req,res) => {
             }]
         })
     }catch(err){
+        console.log(err.message);
         return res.status(500).json({
             msg:"Internal server error."
         })
     }
 }
+
+module.exports = register;
