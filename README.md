@@ -1,128 +1,147 @@
 # 📝 Note-Taking Backend API
 
-This is a RESTful API backend for a note-taking application built using **Node.js**, **Express**, and **MongoDB**. It supports user authentication, note creation, updating, deletion, sorting, and filtering.
+A RESTful API built with **Node.js**, **Express**, and **MongoDB** for managing user-authenticated note creation, editing, deletion, and filtering/sorting by importance and creation date.
 
-## 🔧 Tech Stack
+---
 
-* Node.js
-* Express
-* MongoDB + Mongoose
-* JWT (Authentication)
-* bcrypt (Password hashing)
-* CORS
-* dotenv
+## 🚀 Features
+
+* ✅ User registration and login (JWT-based authentication)
+* 📒 Create, read, update, delete (CRUD) notes
+* 📌 Sort notes by importance or creation date
+* 🎯 Filter notes by importance level (high, medium, low)
+* 🔐 Password hashing with bcrypt
+* 📓 Unique note titles per user
+* 📌 MongoDB compound index for fast lookups
 
 ---
 
 ## 📁 Project Structure
 
 ```
-/project-root
-│
-├── controllers/        # All business logic (auth, notes)
-├── models/             # Mongoose schemas (User, Note)
-├── routes/             # API routes
-├── middlewares/        # Auth middleware
-├── config/             # MongoDB connection
-├── utils/              # Utility functions (JWT, hash utils)
-├── app.js              # Express app configuration
-└── server.js           # Entry point
+note-taking-backend/
+├── node_modules/
+├── src/
+│   ├── config/         # Database config
+│   ├── controllers/    # Logic for auth, notes
+│   ├── middlewares/    # Auth middleware
+│   ├── models/         # Mongoose models
+│   ├── routes/         # API route definitions
+│   ├── utils/          # Helper functions (if any)
+│   ├── app.js          # Express app
+├── server.js           # App entry point
+├── .env                # Environment variables
+├── package.json
+├── README.md
 ```
 
 ---
 
-## ⚙️ Setup Instructions
+## 🔧 Setup Instructions
 
-### 1. Clone the Repository
+1. **Clone the repository**
 
-```bash
-git clone https://github.com/your-username/note-taking-backend.git
-cd note-taking-backend
-```
+   ```bash
+   git clone https://github.com/your-username/note-taking-backend.git
+   cd note-taking-backend
+   ```
 
-### 2. Install Dependencies
+2. **Install dependencies**
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
-### 3. Create a `.env` File
+3. **Create a `.env` file** in the root with the following values:
 
-```env
-PORT=5000
-MONGODB_URI=your_mongo_uri_here
-JWT_SECRET=your_jwt_secret
-```
+   ```env
+   PORT=5000
+   MONGODB_URI=mongodb://localhost:27017/your-db-name
+   JWT_SECRET=your_jwt_secret_key
+   ```
 
-### 4. Run the Server
+4. **Start the server**
 
-```bash
-npm start
-```
-
-Server will start on `http://localhost:5000`.
+   ```bash
+   nodemon ./server.js
+   ```
 
 ---
 
-## 📌 API Endpoints
+## 📬 API Endpoints
 
-### 🔐 Auth Routes (`/api/v1/auth`)
+### Auth Routes (`/api/v1/auth`)
 
-* `POST /register` — Register a new user
-* `POST /login` — Login existing user
+| Method | Route       | Description         |
+| ------ | ----------- | ------------------- |
+| POST   | `/register` | Register a new user |
+| POST   | `/login`    | Login a user        |
 
-### 👤 User Routes (`/api/v1/user`)
+### Notes Routes (`/api/v1/notes`)
 
-* `GET /profile` — Get user profile (protected)
+All note routes are protected by JWT.
 
-### 📝 Note Routes (`/api/v1/notes`)
-
-* `GET /` — Get all note titles or a specific one (with query `?title=`)
-* `POST /` — Create a new note
-* `PATCH /:id` — Update a note by ID
-* `DELETE /:id` — Delete a note by ID
-
-> Optional query params:
-> `?sort=importance` — Sort by importance
-> `?level=high` — Filter by importance level
+| Method | Route          | Description                                  |
+| ------ | -------------- | -------------------------------------------- |
+| GET    | `/`            | Get note titles (optionally filtered/sorted) |
+| GET    | `/?title=name` | Get specific note by title                   |
+| POST   | `/`            | Create a new note                            |
+| PATCH  | `/:id`         | Update a note                                |
+| DELETE | `/:id`         | Delete a note                                |
 
 ---
 
-## ✏️ Notes Model
+## 🔐 Auth Middleware
 
-```js
-{
-  user: ObjectId,
-  title: String,
-  notes: String,
-  importance: "low" | "medium" | "high",
-  createdAt: Date,
-  updatedAt: Date
-}
+All protected routes must include a valid JWT in the `Authorization` header:
+
+```
+Authorization: Bearer <your_token>
 ```
 
-> Unique constraint on title per user: a user cannot have multiple notes with the same title.
+---
+
+## ✅ Sorting & Filtering Examples
+
+* **Sort by importance:**
+
+  ```
+  GET /api/v1/notes?sort=importance
+  ```
+
+* **Filter by importance level:**
+
+  ```
+  GET /api/v1/notes?level=high
+  ```
+
+* **Fetch specific note by title:**
+
+  ```
+  GET /api/v1/notes?title=Java
+  ```
 
 ---
 
-## 🔒 Authentication
+## 🛠 Technologies Used
 
-Uses JWT stored in the `Authorization` header as `Bearer <token>` for protected routes.
+* Node.js
+* Express.js
+* MongoDB & Mongoose
+* JSON Web Tokens (JWT)
+* Bcrypt
+* dotenv
+* CORS
 
 ---
 
-## 👫 Contact
+## 📌 TODOs
 
-For any queries, feel free to reach out or raise an issue.
+* [ ] Add pagination
+* [ ] Add user profile endpoints
+* [ ] Add tests (Jest / Supertest)
+* [ ] Dockerize the project
 
----
-
-## ✅ To Do (Optional Enhancements)
-
-* Add pagination
-* Add labels/tags to notes
-* Add sharing functionality
-* Add password reset
 
 
 Testing of middleware, user and notes routes are still remaining.
