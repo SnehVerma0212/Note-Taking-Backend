@@ -143,5 +143,3 @@ Authorization: Bearer <your_token>
 * [ ] Dockerize the project
 
 
-
-Testing of middleware, user and notes routes are still remaining.
