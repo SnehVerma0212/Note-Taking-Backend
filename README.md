@@ -135,11 +135,6 @@ Authorization: Bearer <your_token>
 
 ---
 
-## 📌 TODOs
 
-* [ ] Add pagination
-* [ ] Add user profile endpoints
-* [ ] Add tests (Jest / Supertest)
-* [ ] Dockerize the project
 
 
