@@ -133,8 +133,6 @@ Authorization: Bearer <your_token>
 * dotenv
 * CORS
 
----
-
 
 
 
