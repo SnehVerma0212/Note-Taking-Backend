@@ -133,6 +133,10 @@ Authorization: Bearer <your_token>
 * dotenv
 * CORS
 
+---
 
+To Run The Docker Image, use the command:
+
+docker compose up --build
 
 
