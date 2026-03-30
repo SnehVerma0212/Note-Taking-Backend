@@ -10,15 +10,15 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'pip3 install -r requirements.txt || true'
+                sh 'npm install'
             }
         }
 
-        stage('Run App') {
+        stage('Run Server') {
             steps {
                 sh '''
-                pkill -f app.py || true
-                nohup python3 app.py > app.log 2>&1 &
+                pkill -f node || true
+                nohup node server.js > app.log 2>&1 &
                 '''
             }
         }
